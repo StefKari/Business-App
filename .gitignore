@@ -1,0 +1,23 @@
+# Laravel specific
+/vendor/
+.env
+.env.backup
+.env.*
+.phpunit.result.cache
+Homestead.yaml
+Homestead.json
+.idea
+
+# Laravel storage and cache
+/storage/*.key
+/storage/app/public
+/storage/debugbar
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/bootstrap/cache/*.php
+
+# Composer
+/composer.phar
+
