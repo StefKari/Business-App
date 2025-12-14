@@ -21,3 +21,7 @@ Homestead.json
 # Composer
 /composer.phar
 
+node_modules
+.sql
+.zip
+
