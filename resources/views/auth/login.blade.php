@@ -86,9 +86,9 @@
                 <div class="mt-6 border-t border-gray-200 pt-6">
                     <p class="text-xs text-gray-500 text-center">
                         <strong>Default Credentials:</strong><br>
-                        SysAdmin: sysadmin@business.test / password<br>
-                        Admin: admin@business.test / password<br>
-                        Moderator: moderator@business.test / password
+                        SysAdmin: sysadmin@business.test / 123<br>
+                        Admin: admin@business.test / 123<br>
+                        Moderator: moderator@business.test / 123
                     </p>
                 </div>
             </form>

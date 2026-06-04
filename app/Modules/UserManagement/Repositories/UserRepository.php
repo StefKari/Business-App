@@ -4,6 +4,7 @@ namespace App\Modules\UserManagement\Repositories;
 
 use App\Core\Repositories\Eloquent\BaseRepository;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository extends BaseRepository
@@ -13,48 +14,59 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
-    /**
-     * Get active users
-     */
     public function getActive(): Collection
     {
-        return $this->query->where('is_active', true)->get();
+        $result = $this->query->where('is_active', true)->get();
+        $this->resetQuery();
+        return $result;
     }
 
-    /**
-     * Get users by role
-     */
     public function getByRole(string $roleSlug): Collection
     {
-        return $this->query->whereHas('role', function ($q) use ($roleSlug) {
+        $result = $this->query->whereHas('role', function ($q) use ($roleSlug) {
             $q->where('slug', $roleSlug);
         })->get();
+        $this->resetQuery();
+        return $result;
     }
 
-    /**
-     * Get users created by specific user
-     */
     public function getCreatedBy(int $userId): Collection
     {
-        return $this->query->where('created_by', $userId)->get();
+        $result = $this->query->where('created_by', $userId)->get();
+        $this->resetQuery();
+        return $result;
     }
 
-    /**
-     * Search users
-     */
-    public function search(string $query)
+    public function search(string $search): Collection
     {
-        return $this->query->where(function ($q) use ($query) {
-            $q->where('name', 'like', "%{$query}%")
-              ->orWhere('email', 'like', "%{$query}%");
-        });
+        $result = $this->query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%");
+        })->with('role')->get();
+        $this->resetQuery();
+        return $result;
     }
 
-    /**
-     * Get users with role
-     */
-    public function getAllWithRole()
+    public function getAllWithRole(): Collection
     {
-        return $this->query->with('role')->get();
+        $result = $this->query->with('role')->get();
+        $this->resetQuery();
+        return $result;
+    }
+
+    public function getAllWithRolePaginated(?string $search = null, int $perPage = 15): LengthAwarePaginator
+    {
+        $query = $this->query->with('role')->orderBy('created_at', 'desc');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $result = $query->paginate($perPage);
+        $this->resetQuery();
+        return $result;
     }
 }

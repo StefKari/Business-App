@@ -22,27 +22,38 @@
         </div>
     </div>
 
+    <!-- Search -->
+    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-4">
+            <form method="GET" action="{{ route('users.index') }}" class="flex gap-3">
+                <div class="flex-1">
+                    <input type="text" name="search" value="{{ $search }}"
+                           placeholder="Search by name or email..."
+                           class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition ease-in-out duration-150">
+                    Search
+                </button>
+                @if($search)
+                <a href="{{ route('users.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 transition ease-in-out duration-150">
+                    Clear
+                </a>
+                @endif
+            </form>
+        </div>
+    </div>
+
     <!-- Users Table -->
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            User
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Role
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Created
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Actions
-                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -88,16 +99,12 @@
                                     @if($user->is_active)
                                     <form action="{{ route('users.deactivate', $user) }}" method="POST" class="inline">
                                         @csrf
-                                        <button type="submit" class="text-orange-600 hover:text-orange-900" onclick="return confirm('Deactivate this user?')">
-                                            Deactivate
-                                        </button>
+                                        <button type="submit" class="text-orange-600 hover:text-orange-900" onclick="return confirm('Deactivate this user?')">Deactivate</button>
                                     </form>
                                     @else
                                     <form action="{{ route('users.activate', $user) }}" method="POST" class="inline">
                                         @csrf
-                                        <button type="submit" class="text-green-600 hover:text-green-900">
-                                            Activate
-                                        </button>
+                                        <button type="submit" class="text-green-600 hover:text-green-900">Activate</button>
                                     </form>
                                     @endif
                                 @endcan
@@ -106,9 +113,7 @@
                                 <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this user?')">
-                                        Delete
-                                    </button>
+                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                                 </form>
                                 @endcan
                             </div>
@@ -117,13 +122,27 @@
                     @empty
                     <tr>
                         <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                            No users found
+                            @if($search)
+                                No users found matching "{{ $search }}"
+                            @else
+                                No users found
+                            @endif
                         </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
+
+        @if($users->hasPages())
+        <div class="px-6 py-4 border-t border-gray-200">
+            {{ $users->appends(['search' => $search])->links() }}
+        </div>
+        @endif
+    </div>
+
+    <div class="text-sm text-gray-500 text-right">
+        Showing {{ $users->firstItem() ?? 0 }}–{{ $users->lastItem() ?? 0 }} of {{ $users->total() }} users
     </div>
 </div>
 @endsection

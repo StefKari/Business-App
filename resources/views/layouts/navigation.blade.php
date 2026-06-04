@@ -23,6 +23,13 @@
                         Users
                     </a>
                     @endif
+
+                    @if(auth()->user()->hasPermission('users.view'))
+                    <a href="{{ route('activity-logs.index') }}"
+                       class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('activity-logs.*') ? 'border-indigo-400' : 'border-transparent' }} text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
+                        Activity Logs
+                    </a>
+                    @endif
                 </div>
             </div>
 
@@ -46,7 +53,7 @@
                     <div x-show="open" @click.away="open = false"
                          class="absolute right-0 mt-2 w-48 rounded-md shadow-lg origin-top-right">
                         <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
-                            <a href="{{ route('users.show', Auth::user()) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -81,6 +88,9 @@
             <a href="{{ route('users.index') }}" class="block pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('users.*') ? 'border-indigo-400 bg-indigo-50' : 'border-transparent' }} text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
                 Users
             </a>
+            <a href="{{ route('activity-logs.index') }}" class="block pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('activity-logs.*') ? 'border-indigo-400 bg-indigo-50' : 'border-transparent' }} text-base font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">
+                Activity Logs
+            </a>
             @endif
         </div>
 
@@ -97,7 +107,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <a href="{{ route('users.show', Auth::user()) }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                <a href="{{ route('profile.edit') }}" class="block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
                     Profile
                 </a>
                 <form method="POST" action="{{ route('logout') }}">

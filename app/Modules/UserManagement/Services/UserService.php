@@ -31,8 +31,10 @@ class UserService extends BaseService
      */
     public function updateUser(int $id, array $data): User
     {
-        if (isset($data['password'])) {
+        if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
         }
 
         return $this->repository->update($id, $data);
@@ -95,11 +97,11 @@ class UserService extends BaseService
     }
 
     /**
-     * Get all users with their roles
+     * Get all users with their roles (paginated + optional search)
      */
-    public function getUsersWithRoles()
+    public function getUsersWithRoles(?string $search = null, int $perPage = 15)
     {
-        return $this->repository->getAllWithRole();
+        return $this->repository->getAllWithRolePaginated($search, $perPage);
     }
 
     /**

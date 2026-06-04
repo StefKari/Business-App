@@ -57,9 +57,9 @@ https://business.test
 
 | Role | Email | Password |
 |------|-------|----------|
-| System Administrator | sysadmin@business.test | password |
-| Administrator | admin@business.test | password |
-| Moderator | moderator@business.test | password |
+| System Administrator | sysadmin@business.test | 123 |
+| Administrator | admin@business.test | 123 |
+| Moderator | moderator@business.test | 123 |
 
 
 ## 🏗️ Architecture

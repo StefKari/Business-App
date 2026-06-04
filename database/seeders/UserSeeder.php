@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $sysAdmin = User::create([
             'name' => 'System Administrator',
             'email' => 'sysadmin@business.test',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123'),
             'role_id' => $sysAdminRole->id,
             'is_active' => true,
             'email_verified_at' => now(),
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name' => 'Administrator',
             'email' => 'admin@business.test',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123'),
             'role_id' => $adminRole->id,
             'is_active' => true,
             'created_by' => $sysAdmin->id,
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Moderator',
             'email' => 'moderator@business.test',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123'),
             'role_id' => $moderatorRole->id,
             'is_active' => true,
             'created_by' => $sysAdmin->id,
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Test Admin',
             'email' => 'test.admin@business.test',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123'),
             'role_id' => $adminRole->id,
             'is_active' => true,
             'created_by' => $sysAdmin->id,
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Test Moderator',
             'email' => 'test.moderator@business.test',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123'),
             'role_id' => $moderatorRole->id,
             'is_active' => true,
             'created_by' => $admin->id,

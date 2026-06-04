@@ -9,6 +9,7 @@ use App\Modules\UserManagement\Requests\StoreUserRequest;
 use App\Modules\UserManagement\Requests\UpdateUserRequest;
 use App\Modules\UserManagement\Services\UserService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -22,12 +23,12 @@ class UserController extends Controller
     /**
      * Display a listing of users
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $users = $this->userService
-            ->getUsersWithRoles();
+        $search = $request->input('search');
+        $users = $this->userService->getUsersWithRoles($search);
 
-        return view('users.index', compact('users'));
+        return view('users.index', compact('users', 'search'));
     }
 
     /**
